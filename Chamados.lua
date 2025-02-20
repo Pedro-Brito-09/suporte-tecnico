@@ -211,7 +211,7 @@ local function MudarPrioridade()
     end
 end
 
-local function OrdenarChamados()
+local function OrdenarChamados(MenorAteMaior)
     LimparTerminal()
 
     local Clone = {}
@@ -221,10 +221,18 @@ local function OrdenarChamados()
 
     table.sort(Clone, function(A, B)
         if A.Prioridade == B.Prioridade then
-            return A.ID < B.ID
+            if MenorAteMaior then
+                return A.ID < B.ID
+            else
+                return A.ID > B.ID
+            end
         end
 
-        return A.Prioridade < B.Prioridade
+        if MenorAteMaior then
+            return A.Prioridade < B.Prioridade
+        else
+            return A.Prioridade > B.Prioridade
+        end
     end)
 
     for _, Info in ipairs(Clone) do
@@ -249,16 +257,19 @@ local function Prioridades()
         io.write([[
 ~ PRIORIDADES ~
 1 - Mudar prioridade de um chamado
-2 - Listar chamados ordenados por prioridade
-3 - Voltar ao menu principal
+2 - Listar chamados da menor prioridade ate a maior
+3 - Listar chamados da maior prioridade ate a menor
+4 - Voltar ao menu principal
 O que deseja fazer? > ]])
 
         local Opcao = tonumber(io.read())
         if Opcao == 1 then
             MudarPrioridade()
         elseif Opcao == 2 then
-            OrdenarChamados()
+            OrdenarChamados(true)
         elseif Opcao == 3 then
+            OrdenarChamados(false)
+        elseif Opcao == 4 then
             return
         end
     end
