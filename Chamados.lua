@@ -280,24 +280,37 @@ local function Estatisticas()
     local Finalizados = 0
     local NaoFinalizados = 0
 
+    local MotivosContagem = {}
     for _, Info in ipairs(Chamados) do
         if Info.Resolvido then
             Finalizados = Finalizados + 1
         else
             NaoFinalizados = NaoFinalizados + 1
         end
+
+        MotivosContagem[Info.Motivo] = (MotivosContagem[Info.Motivo] or 0) + 1
     end
 
-    print("~ CONTAGEM ~")
+    print("~ CONTAGEM CHAMADOS ~")
     print("Chamados totais: "..Total)
     print("Chamados finalizados: "..Finalizados)
     print("Chamados nao finalizados: "..NaoFinalizados)
 
-    print("\n~ PERCENTUAL ~")
-    print("Chamados finalizados: "..math.floor(Finalizados / Total * 100).."%")
-    print("Chamados nao finalizados: "..math.floor(NaoFinalizados / Total * 100).."%")
+    print("\n~ CONTAGEM MOTIVOS ~")
+    for Motivo, Quantidade in pairs(MotivosContagem) do
+        print(Motivo..": "..Quantidade)
+    end
 
-    io.write("Pressione enter para voltar. ")
+    print("\n~ PERCENTUAL CHAMADOS ~")
+    print("Chamados finalizados: "..(Finalizados / Total * 100).."%")
+    print("Chamados nao finalizados: "..(NaoFinalizados / Total * 100).."%")
+
+    print("\n~ PERCENTUAL MOTIVOS ~")
+    for Motivo, Quantidade in pairs(MotivosContagem) do
+        print(Motivo..": "..(Quantidade / Total * 100).."%")
+    end
+
+    io.write("\nPressione enter para voltar. ")
     if io.read() then
         return
     end
