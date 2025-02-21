@@ -16,8 +16,6 @@ local function LimparTerminal()
 end
 
 local function UltimoID()
-    print(#Chamados)
-    print(#Chamados > 0 and Chamados[#Chamados].ID or "")
     return #Chamados > 0 and Chamados[#Chamados].ID or 0
 end
 
@@ -276,6 +274,8 @@ O que deseja fazer? > ]])
 end
 
 local function Estatisticas()
+    LimparTerminal()
+
     local Total = #Chamados
     local Finalizados = 0
     local NaoFinalizados = 0
@@ -294,8 +294,8 @@ local function Estatisticas()
     print("Chamados nao finalizados: "..NaoFinalizados)
 
     print("\n~ PERCENTUAL ~")
-    print("Chamados finalizados: "..(Finalizados / Total * 100))
-    print("Chamados nao finalizados: "..(NaoFinalizados / Total * 100))
+    print("Chamados finalizados: "..math.floor(Finalizados / Total * 100).."%")
+    print("Chamados nao finalizados: "..math.floor(NaoFinalizados / Total * 100).."%")
 
     io.write("Pressione enter para voltar. ")
     if io.read() then
